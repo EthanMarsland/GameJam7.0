@@ -84,7 +84,8 @@ protected:
 	bool m_playerAlive;
 
 	// if the player can move 	
-	bool m_CanMove;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_CanMove;
 
 
 };
