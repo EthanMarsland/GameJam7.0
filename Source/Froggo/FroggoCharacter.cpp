@@ -114,7 +114,7 @@ void AFroggoCharacter::PullTimer()
 void AFroggoCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// set up gameplay key bindings
-	PlayerInputComponent->BindAxis("MoveRight", this, &AFroggoCharacter::MoveRight);
+	//PlayerInputComponent->BindAxis("MoveRight", this, &AFroggoCharacter::MoveRight);
 
 	PlayerInputComponent->BindTouch(IE_Pressed, this, &AFroggoCharacter::TouchStarted);
 	PlayerInputComponent->BindTouch(IE_Released, this, &AFroggoCharacter::TouchStopped);
