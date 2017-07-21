@@ -52,6 +52,12 @@ public:
 		void pullTimerEnd();
 
 	UFUNCTION(BlueprintCallable)
+		void AttackTimerStart();
+
+	UFUNCTION(BlueprintCallable)
+		void AttackTimerEnd();
+
+	UFUNCTION(BlueprintCallable)
 		bool GetPlayerAlive();
 
 	UFUNCTION(BlueprintCallable)
@@ -60,17 +66,28 @@ public:
 	UFUNCTION()
 		void PullTimer();
 
+	UFUNCTION()
+		void AttackTimer();
+
 protected:
 
 	// pull timer handle
 	FTimerHandle m_PullTimerHandle;
+
+	// pull timer handle
+	FTimerHandle m_AttackTimerHandle;
+
+	// how long the player takes to charge attack
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+		float m_AttackChargeTime;
+
 
 	// how much the player is being pulled
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float m_pullForce;
 
 	// how long the player has to break free
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float m_MaxPullTime;
 
 	// the amount of pull needed to kill player
@@ -78,14 +95,20 @@ protected:
 	int32 m_PullLossAmount;
 
 	// how much to decrease time each time the player breaks free
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		float m_TimeLoss;
 
 	bool m_playerAlive;
 
 	// if the player can move 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		bool m_CanMove;
 
+	// if the player is attacking
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_Attacking;
 
+	// if the player is charged
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool m_AttackCharged;
 };

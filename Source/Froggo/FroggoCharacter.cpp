@@ -41,7 +41,9 @@ AFroggoCharacter::AFroggoCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	m_CanMove = true;
-	m_playerAlive = true;
+	m_playerAlive = true; 
+	m_Attacking = false;
+	m_AttackCharged = false;
 }
 
 void AFroggoCharacter::addPullForce(int32 force)
@@ -67,14 +69,31 @@ void AFroggoCharacter::pullTimerStart()
 
 	GetWorld()->GetTimerManager().SetTimer(m_PullTimerHandle,
 		TimerDel, m_MaxPullTime, true);
-
 }
 
 void AFroggoCharacter::pullTimerEnd()
 {
 	GetWorld()->GetTimerManager().ClearTimer(m_PullTimerHandle);
 	m_CanMove = true;
-	m_MaxPullTime -= m_TimeLoss;
+	//m_MaxPullTime -= m_TimeLoss;
+}
+
+void AFroggoCharacter::AttackTimerStart()
+{
+	FTimerDelegate TimerDel;
+	TimerDel.BindUFunction(this, FName("AttackTimer"));
+
+	GetWorld()->GetTimerManager().SetTimer(m_AttackTimerHandle,
+		TimerDel, m_AttackChargeTime, false);
+
+	m_Attacking = true;
+}
+
+void AFroggoCharacter::AttackTimerEnd()
+{
+	GetWorld()->GetTimerManager().ClearTimer(m_AttackTimerHandle);
+	m_Attacking = false;
+	m_AttackCharged = false;
 }
 
 bool AFroggoCharacter::GetPlayerAlive()
@@ -108,6 +127,14 @@ void AFroggoCharacter::PullTimer()
 	return;
 }
 
+void AFroggoCharacter::AttackTimer()
+{
+
+	UE_LOG(LogTemp, Warning, TEXT("ATTACKING!"));
+	
+	m_AttackCharged = true;	
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -125,7 +152,7 @@ void AFroggoCharacter::MoveRight(float Value)
 	if (m_CanMove)
 	{
 		// add movement in that direction
-		AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
+		//AddMovementInput(FVector(0.f, -1.f, 0.f), Value);
 	}
 }
 
