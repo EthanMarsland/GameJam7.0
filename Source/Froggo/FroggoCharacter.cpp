@@ -60,7 +60,7 @@ void AFroggoCharacter::pullTimerStart()
 	{
 		m_MaxPullTime = 0.05;
 	}
-
+	m_MaxPullTime -= m_TimeLoss;
 	// stop the player from moving
 	m_CanMove = false;
 
